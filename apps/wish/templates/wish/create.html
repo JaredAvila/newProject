@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    {% load static %}
+    <link href="https://fonts.googleapis.com/css?family=Cedarville+Cursive|Montserrat" rel="stylesheet">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <link rel="stylesheet" href="{% static 'wish/css/home.css' %}">
+</head>
+
+<body>
+    <div class='container'>
+        <div id="wrapper">
+            <div id='nav-bar'>
+                <h1>Hello {{ request.session.fName }}!</h1>
+                <div id="nav-links">
+                    <a href="/wish/logout">
+                        <p class="clrLink">Logout</p>
+                    </a>
+                </div>
+            </div>
+            <div id="edit">
+                {% for message in messages %}
+                <p style="width: fit-content; margin:auto; font-size: 14pt; font-weight: bold; color: red;">{{message}}</p>
+                {% endfor %}
+                <form id="editForm" action="/wish/add" method="POST">
+                    {% csrf_token %}
+                    <input type="text" name="wish" placeholder="wish">
+                    <textarea name="desc" cols="30" rows="10" placeholder='description'></textarea>
+                    <a href="/wish" style="text-decoration: none; color: black;"><button type="button" class="bttn">Cancel</button></a>
+                    <button class="bttn" type="submit">Submit</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>

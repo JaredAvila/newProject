@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    {% load static %}
+    <link href="https://fonts.googleapis.com/css?family=Cedarville+Cursive|Montserrat" rel="stylesheet">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <link rel="stylesheet" href="{% static 'wish/css/home.css' %}">
+</head>
+
+<body>
+    <div class='container'>
+        <div id="wrapper">
+            <div id='nav-bar'>
+                <h1>Hello {{ request.session.fName }}!</h1>
+                <div id="nav-links">
+                    <a href="/wish/logout">
+                        <p class="clrLink">Logout</p>
+                    </a>
+                    <form>
+                        {% csrf_token %}
+                        <a href="/wish/stats/{{ request.session.id }}"><button class="bttn" type="button" name="stats">Stats</button></a>
+                        <a href="/wish/create"><button class="bttn" type="button" name="wish">Wish</button></a>
+                    </form>
+                </div>
+            </div>
+            <div id="yourWish">
+                <table>
+                    <tr>
+                        <th>Item</th>
+                        <th>Date Added</th>
+                        <th>Actions</th>
+                    </tr>
+
+                    {% for wish in wishes %}
+                    <tr>
+                        <td>{{ wish.wish }}</td>
+                        <td>{{ wish.created_at }}</td>
+                        <td id="formLinks">
+                            <a class="clrLink" href="/wish/delete/{{ wish.id }}">
+                                <p>Remove</p>
+                            </a><a class="clrLink" href="/wish/edit/{{ wish.id }}">
+                                <p>Edit</p>
+                            </a><a class="clrLink" href="/wish/granted/{{ wish.id }}">
+                                <p>Granted</p>
+                            </a>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </table>
+            </div>
+            <div id="grantedWish">
+                <table>
+                    <tr>
+                        <th>Item</th>
+                        <th>Wisher</th>
+                        <th>Date Added</th>
+                        <th>Date Granted</th>
+                        <th>Likes</th>
+                        <th>Actions</th>
+                    </tr>
+                    {% for grant in grants %}
+                    <tr>
+                        <td>{{ grant.granted }}</td>
+                        <td>{{ grant.wisher }}</td>
+                        <td>{{ grant.wishCreatedAt }}</td>
+                        <td>{{ grant.created_at }}</td>
+                        <td>{{ grant.grantedLikes.count }}</td>
+                        {% if grant.wisher != request.session.fName %}
+                            <td><a href="/wish/like/{{ grant.id }}"><p>Like</p></a></td>
+                        {% else %}
+                            <td></td>
+                        {% endif %}
+                    </tr>
+                    {% endfor %}
+                </table>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>

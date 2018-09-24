@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Email Validation Form</title>
+    {% load static %}
+    <link href="https://fonts.googleapis.com/css?family=Nanum+Gothic" rel="stylesheet">
+    <!-- <link rel="stylesheet" href="../static/style.css"> -->
+    <link rel="stylesheet" href="{% static 'login/css/registrations.css' %}">
+    <!-- <link rel="stylesheet" href='login.css'> -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+</head>
+
+<body>
+    <div class="container">
+        <form action="/regValid" method="POST">
+            {% csrf_token %}
+            <input id='email' type="text" name="fName" placeholder="FIRST NAME">
+            <input id='email' type="text" name="lName" placeholder="LAST NAME">
+            <input id='email' type="text" name="email" placeholder="EMAIL">
+            <input id='email' type="password" name="password" placeholder="PASSWORD">
+            <input id='email' type="password" name="confPassword" placeholder="CONFIRM PASSWORD">
+            <button type="submit" class="button">SUBMIT</button>
+            {% for message in messages %}
+            <p style="color: rgb(209, 13, 13);">{{ message }}</p>
+            {% endfor %}
+        </form>
+
+    </div>
+    <script>
+        $('document').ready(function () {
+            $("button").click(function () {
+                $("button").animate({ width: '72px' }, 150);
+                $('.button').html("<div class='loader'></div>")
+            });
+        });
+    </script>
+</body>
+
+</html>
